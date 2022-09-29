@@ -16,6 +16,7 @@ INCLUDES += \
   -I../watch_faces/complication/ \
   -I../watch_faces/sensor/ \
   -I../watch_faces/demo/ \
+  -I../watch_faces/djiaak/ \
   -I../../littlefs/ \
   -I../lib/TOTP-MCU/ \
   -I../lib/sunriset/ \
@@ -51,6 +52,7 @@ SRCS += \
   ../watch_faces/demo/lis2dw_logging_face.c \
   ../watch_faces/demo/demo_face.c \
   ../watch_faces/demo/hello_there_face.c \
+  ../watch_faces/djiaak/game_face.c \
   ../watch_faces/complication/pulsometer_face.c \
   ../watch_faces/complication/day_one_face.c \
   ../watch_faces/complication/stopwatch_face.c \
