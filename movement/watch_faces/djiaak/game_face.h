@@ -21,15 +21,30 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
- 
+
 #ifndef GAME_FACE_H_
 #define GAME_FACE_H_
 
 #include "movement.h"
 
+typedef enum {
+    START,
+    INTRO,
+    PLAYING,
+    DONE,
+    SCORE
+} game_state_state_t;
+
+#define MAX_BULLETS_PER_LINE 5
+
 typedef struct {
     bool player_at_top;
     uint16_t game_time;
+    uint16_t score;
+    uint16_t ticks_per_update;
+    uint16_t bullets_top[MAX_BULLETS_PER_LINE];
+    uint16_t bullets_bottom[MAX_BULLETS_PER_LINE];
+    game_state_state_t state;
 } game_state_t;
 
 void game_face_setup(movement_settings_t *settings, uint8_t watch_face_index, void ** context_ptr);
