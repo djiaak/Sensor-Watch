@@ -55,6 +55,7 @@
 #include "probability_face.h"
 #include "wake_face.h"
 #include "game_face.h"
+#include "afr_clock_face.h"
 // #include "interval_face.h"
 // New includes go above this line.
 

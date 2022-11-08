@@ -39,10 +39,10 @@ const uint16_t SHOOT_BOTTOM_COM[] = { 1, 0, 0, 0, 0, 1, 0, 1, 1, 0};
 const uint16_t SHOOT_BOTTOM_SEG[] = { 6, 5, 4, 2, 1, 0,23,22,21,20};
 
 const uint16_t BULLET_SPAWN_PROB = 50;
-const uint16_t TOTAL_GAME_TIME = 1000;
+const uint16_t TOTAL_GAME_TIME = 500;
 const uint16_t COUNTER_MAX = 39;
 const uint16_t TICK_PER_UPDATE_INC_INTERVAL = 100;
-const uint16_t TICKS_PER_UPDATE_INITIAL = 10;
+const uint16_t TICKS_PER_UPDATE_INITIAL = 5;
 
 static uint8_t generate_random_number(uint8_t max) {
     // Emulator: use rand. Hardware: use arc4random.
@@ -83,14 +83,18 @@ static void update_bullets(game_state_t *state) {
             state->bullets_top[i]--;
             if (state->bullets_top[i] == 0 && state->player_at_top) {
                 state->score++;
+                watch_set_led_red();
                 beep();
+                watch_set_led_off();
             }
         }
         if (state->bullets_bottom[i]) {
             state->bullets_bottom[i]--;
             if (state->bullets_bottom[i] == 0 && !state->player_at_top) {
                 state->score++;
+                watch_set_led_green();
                 beep();
+                watch_set_led_off();
             }
         }
         if (state->bullets_top[i] > max) max = state->bullets_top[i];
@@ -142,11 +146,12 @@ void game_face_setup(movement_settings_t *settings, uint8_t watch_face_index, vo
 
 void game_face_activate(movement_settings_t *settings, void *context) {
     (void) settings;
+    memset(context, 0, sizeof(game_state_t));
     game_state_t *state = (game_state_t *)context;
     state->state = START;
     state->game_time = 0;
 
-    movement_request_tick_frequency(64);
+    movement_request_tick_frequency(32);
 }
 
 
@@ -193,7 +198,7 @@ bool game_face_loop(movement_event_t event, movement_settings_t *settings, void 
                     update_bullets(state);
                 }
                
-                if ((state->game_time % TICK_PER_UPDATE_INC_INTERVAL == 0) && state->ticks_per_update > 2) {
+                if ((state->game_time % TICK_PER_UPDATE_INC_INTERVAL == 0) && state->ticks_per_update > 1) {
                     state->ticks_per_update--;
                 }
                 if (state->game_time >= TOTAL_GAME_TIME) {
